@@ -3,6 +3,7 @@ main: io.github.grimepp.scoreboard.ScoreboardPlugin
 version: 1
 author: GrimEpp
 description: Scoreboard plugin!
+softdepends: [PlaceholderAPI]
 commands:
   reloadScoreboard:
     usage: /reloadScoreboard
