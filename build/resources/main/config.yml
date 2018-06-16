@@ -1,0 +1,11 @@
+settings:
+  configreloadpermission: 'admin.reload'
+  noperm: '&cDu har ikke tilgang!'
+  reloaded: '&aDu reloaded config!'
+  scoreboard:
+    name: 'scoreboard'
+    lines:
+      0: 'jeg er et veldig kult score'
+      1: 'ting'
+      2: '&afarget ting'
+      3: '&kveldig &rkul &kting'

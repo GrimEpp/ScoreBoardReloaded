@@ -1,0 +1,17 @@
+group 'net.flameheroes'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+    compile (group:'org.spigotmc', name: 'spigot-api', version:'1.8.8-R0.1-SNAPSHOT')
+    compile files('libs/papi.jar')
+}

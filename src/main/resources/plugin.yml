@@ -1,0 +1,10 @@
+name: Scoreboard
+main: io.github.grimepp.scoreboard.ScoreboardPlugin
+version: 1
+author: GrimEpp
+description: Scoreboard plugin!
+commands:
+  reloadScoreboard:
+    usage: /reloadScoreboard
+    alias: [rlsc]
+    description: 'Reloader config!'
