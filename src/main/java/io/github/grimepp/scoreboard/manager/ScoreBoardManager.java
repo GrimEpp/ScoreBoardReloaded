@@ -1,7 +1,7 @@
 package io.github.grimepp.scoreboard.manager;
 
-import me.clip.placeholderapi.PlaceholderAPI;
 import io.github.grimepp.scoreboard.ScoreboardPlugin;
+import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.ConfigurationSection;
@@ -20,7 +20,7 @@ public class ScoreBoardManager implements ConfigAccess {
         static {
             plasys = new HashMap<>();
         }
-        private Map<Integer,String> map;
+        private Set<String> keys;
         private Scoreboard scoreboard;
         private boolean bb;
         private Player p;
@@ -39,7 +39,7 @@ public class ScoreBoardManager implements ConfigAccess {
                 Scoreboard scoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
                 Objective objective = scoreboard.registerNewObjective("sc", "dummy");
                 objective.setDisplayName(getConfig().getColouredString("settings.scoreboard.name"));
-                Map<Integer, String> stringMap = new HashMap<>();
+               Set<String> teams = new HashSet<>();
             section.getKeys(false).forEach(s -> {
                     final String ss = prepare(getConfig().getString("settings.scoreboard.lines."+s), p);
                     String ss1 = prepareStatic(getConfig().getString("settings.scoreboard.lines."+s));
@@ -47,6 +47,7 @@ public class ScoreBoardManager implements ConfigAccess {
                         if (ss.length() < 48) {
                             String next = session.next();
                             Team team = scoreboard.registerNewTeam(s);
+                            teams.add(s);
                             int i = integer.decrementAndGet();
                             String ssss = null;
                             if (ss.length() > 31) {
@@ -80,12 +81,11 @@ public class ScoreBoardManager implements ConfigAccess {
                                 team.setPrefix(ss);
                             }
                             objective.getScore(next).setScore(i);
-                            stringMap.put(i, s);
                         }
                     }
                 });
                 objective.setDisplaySlot(DisplaySlot.SIDEBAR);
-                this.map = stringMap;
+                this.keys = teams;
                 this.scoreboard = scoreboard;
                 p.setScoreboard(scoreboard);
             update();
@@ -102,8 +102,10 @@ public class ScoreBoardManager implements ConfigAccess {
                     if (!p.isOnline() || bb)
                         cancel();
                     try {
-                            map.forEach((i, s) -> {
+                            keys.forEach(s -> {
                                 Team team = scoreboard.getTeam(s);
+                                if (team == null)
+                                    return;
                                 String real = prepare(getConfig().getString("settings.scoreboard.lines."+s), p);
                                 if (real.length() > 16) {
                                     team.setPrefix(real.substring(0, 16));
@@ -121,7 +123,7 @@ public class ScoreBoardManager implements ConfigAccess {
         }
         private String prepare(String s, Player p) {
            if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI"))
-            s=PlaceholderAPI.setPlaceholders(p,s);
+            s= PlaceholderAPI.setPlaceholders(p, s);
             return ChatColor.translateAlternateColorCodes('&', s);
         }
 
@@ -135,6 +137,7 @@ public class ScoreBoardManager implements ConfigAccess {
             }
 
             String next() {
+                colors.remove(ChatColor.WHITE);
                 ChatColor poll = colors.poll();
                 if (poll == null) {
                     prepare();

@@ -1,6 +1,5 @@
 package io.github.grimepp.scoreboard.manager;
 
-import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
