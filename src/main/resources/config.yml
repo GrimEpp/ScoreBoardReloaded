@@ -4,6 +4,7 @@ settings:
   reloaded: '&aYou successfully reloaded the configuration!'
   scoreboard:
     name: 'scoreboard'
+    #Supports placeholderapi!
     lines:
       0: 'This is a score'
       1: 'thing'
